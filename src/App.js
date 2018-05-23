@@ -8,10 +8,8 @@ import './App.css'
 // import components
 import CoinNameInput from './CoinNameInput';
 import CoinValueInput from './CoinValueInput';
-import CoinDisplay from './CoinDisplay';
 import CalendarDisplay from './CalendarDisplay';
 import CopyLinkButton from './CopyLinkButton'
-import AppStore from './stores/AppStore'
 // API CALLS
 import './API/coinList'
 // import './API/cm'
@@ -42,13 +40,8 @@ const Footer = props =>
 
 
 class App extends Component {
-  constructor() {
-    super();
-  }
 
   render() {
-
-    // Parse URL here
 
     return (
       <div className="cover-container d-flex h-100 p-3 mx-auto flex-column">

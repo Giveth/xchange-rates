@@ -2,8 +2,7 @@ import dispatcher from "../dispatcher";
 import AppStore from '../stores/AppStore';
 import getPrice from '../API/price';
 import computeRightOptions from '../API/coinList';
-import * as utils from '../utils';
-// import * as websocketAPI from 'API/testSockets';
+
 
 export function updateLeftCoinOptions(variable) {
   console.log('updateLeftCoinOptions #',variable.length)
@@ -43,7 +42,7 @@ export function updateValue(value) {
 }
 
 export function updateName(name, id) {
-  if (id == 'left') computeRightOptions(name)
+  if (id === 'left') computeRightOptions(name)
   dispatcher.dispatch({
     type: AppStore.tag.UPDATE_NAME,
     id,
@@ -87,36 +86,8 @@ export function updateRightValue(variable) {
 }
 
 export function updatePrice(price) {
-  console.log('APPACTIONS- update price')
   dispatcher.dispatch({
     type: AppStore.tag.UPDATE_PRICE,
     price: price
   });
 }
-
-
-export function updateVariable(variable) {
-  dispatcher.dispatch({
-    type: AppStore.tag.UPDATE_VARIABLE,
-    variable: variable
-  });
-}
-
-// export function updateMarket(market) {
-//   if(Array.isArray(market)) {
-//     if (market.length > 0) {
-//       updateMarketVerified(market[0])
-//     }
-//   } else {
-//     updateMarketVerified(market)
-//   }
-// }
-// function updateMarketVerified(market) {
-//   // When the market changes, automatically fetch info
-//   websocketAPI.getSingleMarket(market)
-//   // Dispatch the market change event
-//   dispatcher.dispatch({
-//     type: AppStore.tag.UPDATE_MARKET,
-//     market: market
-//   });
-// }

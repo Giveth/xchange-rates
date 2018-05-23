@@ -1,5 +1,5 @@
-import queryString from 'query-string'
 import React, { Component } from 'react'
+import querystring from 'querystring'
 import AppStore from './stores/AppStore'
 import linkIcon from './assets/link.svg'
 
@@ -46,14 +46,22 @@ export default class CopyLinkButton extends Component {
     this.setState({ value: AppStore.getValue('left') })
   }
 
-  render() {
-    const stringified = queryString.stringify({
+  generateUrl() {
+    const stringified = querystring.stringify({
       l: this.state.left,
       r: this.state.right,
       t: this.state.timestamp,
       v: this.state.value
     })
-    const url = window.location.origin + window.location.pathname + '?' + stringified;
+    return window.location.origin + window.location.pathname + '?' + stringified;
+  }
+
+  showUrl() {
+    console.log('COPIED URL: ',this.generateUrl())
+  }
+
+  render() {
+    const url = this.generateUrl()
 
     if (false) {
       return (
@@ -61,7 +69,9 @@ export default class CopyLinkButton extends Component {
       );
     } else {
       return (
-        <button className="btn copy-button" data-clipboard-text={url}>
+        <button className="btn copy-button" data-clipboard-text={url}
+          onClick={this.showUrl.bind(this)}
+        >
           <img src={linkIcon} alt="" className="link-icon"/>
           Copy link
         </button>

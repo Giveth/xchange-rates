@@ -1,7 +1,4 @@
 
-// From coinmarketcap
-const FIAT_NAMES = ["AUD", "BRL", "CAD", "CHF", "CLP", "CNY", "CZK", "DKK", "EUR", "GBP", "HKD", "HUF", "IDR", "ILS", "INR", "JPY", "KRW", "MXN", "MYR", "NOK", "NZD", "PHP", "PKR", "PLN", "RUB", "SEK", "SGD", "THB", "TRY", "TWD", "ZAR"]
-
 // Fiat ordered by volume
 const FIAT = ["USD","KRW","EUR","JPY","RUR","GBP","ZAR","CAD","UAH","NGN","CNY","HKD","VEF","PLN","AUD","NZD","SGD","MYR","COP","PEN","AED","INR","SAR"]
 
