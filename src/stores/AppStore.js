@@ -1,21 +1,41 @@
 import { EventEmitter } from 'events'
 import dispatcher from '../dispatcher'
 import params from '../params'
+import getPrice from '../API/price'
+import computeRightOptions from '../API/coinList';
+import * as utils from '../utils'
+// Initial values
+import * as initialValue from '../API/initialValues'
+
+
 
 class AppStore extends EventEmitter {
   constructor() {
     super()
+    this.name = {
+      left: initialValue.left(),
+      right: initialValue.right()
+    }
+    this.value = {
+      left: initialValue.value(),
+      right: '-'
+    }
+    this.timestamp = initialValue.timestamp()
+    this.options = {
+      left: ['EUR','USD'],
+      right: ['ETH','BTC']
+    }
     this.leftCoin = params.leftCoin
     this.leftValue = params.leftValue
     this.rightCoin = params.rightCoin
     this.rightValue = params.rightValue
     this.leftOptions = []
     this.rightOptions = []
-    this.timestamp = Date.now()
     this.markets = {}
     this.price = params.price
 
     this.tag = {
+      UPDATE_VALUE: 'UPDATE_VALUE',
       UPDATE_LEFT_COIN: 'UPDATE_LEFT_COIN',
       UPDATE_LEFT_VALUE: 'UPDATE_LEFT_VALUE',
       UPDATE_RIGHT_COIN: 'UPDATE_RIGHT_COIN',
@@ -27,12 +47,27 @@ class AppStore extends EventEmitter {
       CHANGE: 'CHANGE',
       INIT: 'INIT',
       CHANGE_VALUES: 'CHANGE_VALUES',
+      CHANGE_OPTIONS: {
+        left: 'CHANGE_OPTIONS_LEFT',
+        right: 'CHANGE_OPTIONS_RIGHT'
+      },
+      UPDATE_PRICE: 'UPDATE_PRICE',
       CHANGE_LEFT_OPTIONS: 'CHANGE_LEFT_OPTIONS',
       CHANGE_RIGHT_OPTIONS: 'CHANGE_RIGHT_OPTIONS',
-      CHANGE_PRICE: 'CHANGE_PRICE'
+      CHANGE_PRICE: 'CHANGE_PRICE',
+      CHANGE_DISPLAY: 'CHANGE_DISPLAY'
     }
   }
 
+  getName(id) {
+    return this.name[id];
+  }
+  getValue(id) {
+    return this.value[id];
+  }
+  getOptions(id) {
+    return this.options[id];
+  }
   getLeftOptions() {
     return this.leftOptions;
   }
@@ -61,63 +96,38 @@ class AppStore extends EventEmitter {
   getRightValue() {
     return this.rightValue;
   }
-  getNewTradeList() {
-    return this.newTradeList;
-  }
-  getMarketList() {
-    return this.marketList;
-  }
-  getStraddleNames() {
-    return this.straddleNames;
-  }
-  getMarket() {
-    return this.market;
-  }
-  getBalance() {
-    let balance = [];
-    let coins = this.market.split('-');
-    let _this = this;
-    coins.forEach(function(coin) {
-      balance.push({
-        coin: coin,
-        balance: _this.balance[coin]
-      })
-    });
-    return balance;
-  }
-  getTicker() {
-    return {
-      market: this.market,
-      ticker: this.ticker[this.market]
-    };
-  }
-  getAuthenticated() {
-    return this.authenticated;
-  }
-  getSignInMessage() {
-    return this.signInMessage;
-  }
+
 
   handleActions(action) {
     switch(action.type) {
+      case this.tag.UPDATE_VALUE: {
+        this.value.left = action.value;
+        this.value.right = utils.multiply(action.value, this.price)
+        this.emit(this.tag.CHANGE_DISPLAY);
+        break;
+      }
+      case this.tag.UPDATE_NAME: {
+        console.log('UPDATE '+action.id+' NAME: '+action.name)
+        this.name[action.id] = action.name;
+        getPrice()
+        this.emit(this.tag.CHANGE_DISPLAY);
+        break;
+      }
       case this.tag.UPDATE_PRICE: {
         this.price = action.price;
-        if (action.updateRightValue) {
-          this.rightValue = action.value
-        } else {
-          this.leftValue = action.value
-        }
-        this.emit(this.tag.CHANGE_VALUES);
+        this.value.right = utils.multiply(this.value.left, this.price)
+        console.log('UPDATE PRICE: this.value.right',this.value.right)
+        this.emit(this.tag.CHANGE_DISPLAY);
         break;
       }
       case this.tag.UPDATE_LEFT_OPTIONS: {
-        this.leftOptions = action.variable;
-        this.emit(this.tag.CHANGE_LEFT_OPTIONS);
+        this.options.left = action.variable;
+        this.emit(this.tag.CHANGE_OPTIONS['left']);
         break;
       }
       case this.tag.UPDATE_RIGHT_OPTIONS: {
-        this.rightOptions = action.variable;
-        this.emit(this.tag.CHANGE);
+        this.options.right = action.variable;
+        this.emit(this.tag.CHANGE_OPTIONS['right']);
         break;
       }
       case this.tag.UPDATE_MARKETS: {
@@ -128,59 +138,11 @@ class AppStore extends EventEmitter {
       }
       case this.tag.UPDATE_TIMESTAMP: {
         this.timestamp = action.variable;
-        this.emit(this.tag.CHANGE);
+        getPrice()
+        this.emit(this.tag.CHANGE_DISPLAY);
         break;
       }
-      case this.tag.UPDATE_LEFT_COIN: {
-        this.leftCoin = action.variable;
-        this.emit(this.tag.CHANGE);
-        break;
-      }
-      case this.tag.UPDATE_LEFT_VALUE: {
-        this.leftValue = action.variable;
-        // this.emit(this.tag.CHANGE_VALUES);
-        break;
-      }
-      case this.tag.UPDATE_RIGHT_COIN: {
-        this.rightCoin = action.variable;
-        this.emit(this.tag.CHANGE_VALUES);
-        break;
-      }
-      case this.tag.UPDATE_RIGHT_VALUE: {
-        this.rightValue = action.variable;
-        // this.emit(this.tag.CHANGE);
-        break;
-      }
-      case this.tag.UPDATE_TRADELIST: {
-        this.tradeList[action.tradeList.market] = action.tradeList;
-        this.emit(this.tag.CHANGE);
-        break;
-      }
-      case this.tag.UPDATE_NEWTRADELIST: {
-        this.newTradeList[action.newTradeList.market] = action.newTradeList;
-        this.emit(this.tag.CHANGE);
-        break;
-      }
-      case this.tag.UPDATE_MARKETLIST: {
-        this.marketList = action.marketList;
-        this.emit(this.tag.CHANGE);
-        break;
-      }
-      case this.tag.UPDATE_STRADDLENAMES: {
-        this.straddleNames = action.straddleNames;
-        this.emit(this.tag.CHANGE);
-        break;
-      }
-      case this.tag.UPDATE_AUTHENTICATED: {
-        this.authenticated = action.authenticated;
-        this.emit(this.tag.CHANGE);
-        break;
-      }
-      case this.tag.UPDATE_SIGNINMESSAGE: {
-        this.signInMessage = action.signInMessage;
-        this.emit(this.tag.CHANGE);
-        break;
-      }
+
       default:
         console.error('AppStore called without a matching tag. Available tags: ',this.tag)
     }

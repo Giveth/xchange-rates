@@ -5,14 +5,16 @@ import computeRightOptions from '../API/coinList';
 import * as utils from '../utils';
 // import * as websocketAPI from 'API/testSockets';
 
-export function updateLeftOptions(variable) {
+export function updateLeftCoinOptions(variable) {
+  console.log('updateLeftCoinOptions #',variable.length)
   dispatcher.dispatch({
     type: AppStore.tag.UPDATE_LEFT_OPTIONS,
     variable: variable
   });
 }
 
-export function updateRightOptions(variable) {
+export function updateRightCoinOptions(variable) {
+  console.log('updateRightCoinOptions #',variable.length)
   dispatcher.dispatch({
     type: AppStore.tag.UPDATE_RIGHT_OPTIONS,
     variable: variable
@@ -31,9 +33,22 @@ export function updateTimestamp(timestamp) {
     type: AppStore.tag.UPDATE_TIMESTAMP,
     variable: timestamp
   });
-  getPrice({
-    timestamp: timestamp
-  })
+}
+
+export function updateValue(value) {
+  dispatcher.dispatch({
+    type: AppStore.tag.UPDATE_VALUE,
+    value: value
+  });
+}
+
+export function updateName(name, id) {
+  if (id == 'left') computeRightOptions(name)
+  dispatcher.dispatch({
+    type: AppStore.tag.UPDATE_NAME,
+    id,
+    name
+  });
 }
 
 export function updateLeftCoin(leftCoin) {
@@ -71,20 +86,11 @@ export function updateRightValue(variable) {
   });
 }
 
-export function updatePrice(price, updateRightValue) {
-  let value;
-  if (updateRightValue) {
-    let leftValue = AppStore.getLeftValue()
-    value = utils.multiply(leftValue, price)
-  } else {
-    let rightValue = AppStore.getRightValue()
-    value = utils.divide(rightValue, price)
-  }
+export function updatePrice(price) {
+  console.log('APPACTIONS- update price')
   dispatcher.dispatch({
     type: AppStore.tag.UPDATE_PRICE,
-    price: price,
-    updateRightValue: updateRightValue,
-    value: value,
+    price: price
   });
 }
 
@@ -114,33 +120,3 @@ export function updateVariable(variable) {
 //     market: market
 //   });
 // }
-
-
-
-export function updateMarketList(marketList) {
-  dispatcher.dispatch({
-    type: AppStore.tag.UPDATE_MARKETLIST,
-    marketList: marketList
-  });
-}
-
-export function updateStraddleNames(straddleNames) {
-  dispatcher.dispatch({
-    type: AppStore.tag.UPDATE_STRADDLENAMES,
-    straddleNames: straddleNames
-  });
-}
-
-export function updateAuthenticated(authenticated) {
-  dispatcher.dispatch({
-    type: AppStore.tag.UPDATE_AUTHENTICATED,
-    authenticated: authenticated
-  });
-}
-
-export function updateSignInMessage(signInMessage) {
-  dispatcher.dispatch({
-    type: AppStore.tag.UPDATE_SIGNINMESSAGE,
-    signInMessage: signInMessage
-  });
-}

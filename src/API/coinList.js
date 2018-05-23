@@ -1,6 +1,7 @@
 import * as AppActions from '../actions/AppActions'
 import AppStore from '../stores/AppStore';
 import getPrice from './price';
+import * as ORDERED_NAMES from './fiat'
 
 function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
@@ -18,12 +19,24 @@ function getCoinListApiAsync(callback) {
     });
 }
 
-function computeLeftCoinOptions(markets) {
+function prioritizeCoinOrder(coinArray) {
+  // Descructively intersect arrays
+  const crypto = ORDERED_NAMES.CRYPTO.filter(coin => coinArray.indexOf(coin) !== -1)
+  const fiat = ORDERED_NAMES.FIAT.filter(coin => coinArray.indexOf(coin) !== -1)
+  // Prepend the available fiat and major crypto first
+  coinArray.unshift(...crypto)
+  coinArray.unshift(...fiat)
+  // Remove duplicates to avoid react uniquenes problems
+  return [...(new Set(coinArray))]
+}
+
+function computeAllCoinOptions(markets) {
   let marketsArray = Object.keys(markets)
-  let leftCoinOptions = marketsArray.map(market => market.split('-')[0])
-  leftCoinOptions = leftCoinOptions.filter( onlyUnique ); // returns ['a', 1, 2, '1']
-  leftCoinOptions.sort()
-  AppActions.updateLeftOptions(leftCoinOptions)
+  let AllCoinOptions = marketsArray.map(market => market.split('-')[0])
+  AllCoinOptions = AllCoinOptions.filter( onlyUnique ); // returns ['a', 1, 2, '1']
+  AllCoinOptions.sort()
+  AllCoinOptions = prioritizeCoinOrder(AllCoinOptions)
+  AppActions.updateLeftCoinOptions(AllCoinOptions)
 }
 
 // let preAprovedExchanges = ['Coinbase']
@@ -60,21 +73,25 @@ getCoinListApiAsync(function(res){
       markets[reverseMarket] = false;
     }
   }
-  console.log('markets',markets)
+  console.log('got '+Object.getOwnPropertyNames(markets).length+' markets')
+
+  // Export results
   AppActions.updateMarkets(markets)
-  computeLeftCoinOptions(markets)
+  computeAllCoinOptions(markets)
   getPrice({})
-  computeRightOptions()
+  computeCoinOptions()
 })
 
-export default function computeRightOptions(leftCoin) {
-  if (!leftCoin) leftCoin = AppStore.getLeftCoin()
+export default function computeCoinOptions(coin) {
+  if (!coin) coin = AppStore.getLeftCoin()
   let markets = AppStore.getMarkets()
   let marketsArray = Object.keys(markets)
-  let selectedMarketsArray = marketsArray.filter(market => market.split('-')[0] === leftCoin)
-  let rightOptions = selectedMarketsArray.map(market => market.split('-')[1])
-  rightOptions = rightOptions.sort()
-  AppActions.updateRightOptions(rightOptions)
+  let selectedMarketsArray = marketsArray.filter(market => market.split('-')[0] === coin)
+  let coinOptions = selectedMarketsArray.map(market => market.split('-')[1])
+  coinOptions = coinOptions.sort()
+  coinOptions = prioritizeCoinOrder(coinOptions)
+  AppActions.updateRightCoinOptions(coinOptions)
+  return coinOptions
 }
 
 

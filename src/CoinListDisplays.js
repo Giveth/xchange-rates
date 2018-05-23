@@ -65,24 +65,13 @@ export default class CoinListDisplays extends Component {
 
   render() {
     return (
-      <Container>
-        <Row>
-          <Col xs="6">
-            <CoinListDisplay
-            options={this.state.leftOptions}
-            onCoinChange={this.onLeftCoinChange.bind(this)}
-            defaultValue={params.leftCoin}
-            />
-          </Col>
-          <Col xs="6">
-            <CoinListDisplay
-            options={this.state.rightOptions}
-            onCoinChange={this.onRightCoinChange.bind(this)}
-            defaultValue={params.rightCoin}
-            />
-          </Col>
-        </Row>
-      </Container>
+      <div>
+        <CoinListDisplay
+        options={this.state.leftOptions}
+        onCoinChange={this.onLeftCoinChange.bind(this)}
+        defaultValue={params.leftCoin}
+        />
+      </div>
     );
   }
 }
