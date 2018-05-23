@@ -1,30 +1,26 @@
 import React, { Component } from 'react';
 import ReactDatePicker from 'react-datepicker'
 import moment from 'moment'
+import AppStore from './stores/AppStore'
 import * as AppActions from './actions/AppActions'
 
-import 'react-datepicker/dist/react-datepicker.css';
 
 export default class CalendarDisplay extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      startDate: moment(),
-      date: new Date()
+      date: moment.unix(AppStore.getTimestamp())
     };
-    this.handleChange = this.handleChange.bind(this);
   }
 
-  onDateChange(date) {
-    let timestamp = moment(date).startOf('date').add(12, 'hours').unix();
-    console.log('GOT TS ',timestamp)
-    AppActions.updateTimestamp(timestamp)
-  }
+  // onDateChange(date) {
+  //   let timestamp = moment(date).startOf('date').add(12, 'hours').unix();
+  //   console.log('GOT TS ',timestamp)
+  //   AppActions.updateTimestamp(timestamp)
+  // }
 
   handleChange(date) {
-    this.setState({
-      startDate: date
-    });
+    this.setState({ date });
     let timestamp = date.startOf('date').add(12, 'hours').unix();
     AppActions.updateTimestamp(timestamp)
   }
@@ -34,13 +30,14 @@ export default class CalendarDisplay extends Component {
   render() {
     return (
       <div className="margin-auto">
-        <ReactDatePicker
-          todayButton={"Today"}
-          maxDate={moment()}
-          selected={this.state.startDate}
-          onChange={this.handleChange}
-          dateFormat="ddd, MMMM Do YYYY"
-        />
+          <ReactDatePicker
+            className="calendar-input"
+            todayButton={"Today"}
+            maxDate={moment()}
+            selected={this.state.date}
+            onChange={this.handleChange.bind(this)}
+            dateFormat="ddd, MMMM Do YYYY"
+          />
       </div>
     )
   }
