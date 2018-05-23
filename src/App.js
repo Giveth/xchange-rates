@@ -46,7 +46,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-          <div className="ui inverted vertical masthead center aligned segment">
+          <div className="ui inverted vertical masthead center aligned segment main">
             <div className="ui text container">
               <Container>
                 <h1 className="ui inverted header">{params.title}</h1>
