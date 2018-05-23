@@ -2,7 +2,6 @@ import { EventEmitter } from 'events'
 import dispatcher from '../dispatcher'
 import params from '../params'
 import getPrice from '../API/price'
-import computeRightOptions from '../API/coinList';
 import * as utils from '../utils'
 // Initial values
 import * as initialValue from '../API/initialValues'
@@ -107,7 +106,6 @@ class AppStore extends EventEmitter {
         break;
       }
       case this.tag.UPDATE_NAME: {
-        console.log('UPDATE '+action.id+' NAME: '+action.name)
         this.name[action.id] = action.name;
         getPrice()
         this.emit(this.tag.CHANGE_DISPLAY);
@@ -116,7 +114,6 @@ class AppStore extends EventEmitter {
       case this.tag.UPDATE_PRICE: {
         this.price = action.price;
         this.value.right = utils.multiply(this.value.left, this.price)
-        console.log('UPDATE PRICE: this.value.right',this.value.right)
         this.emit(this.tag.CHANGE_DISPLAY);
         break;
       }

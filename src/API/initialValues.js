@@ -1,6 +1,8 @@
-import queryString from 'query-string'
+import querystring from 'querystring'
+import moment from 'moment'
 
-const query = queryString.parseUrl(window.location.href).query || {}
+
+const query = querystring.parse(window.location.search) || {}
 console.log('query',query)
 
 export function left() {
@@ -10,7 +12,8 @@ export function right() {
   return query.r || 'ETH'
 }
 export function timestamp() {
-  return query.t || Date.now()
+  if (query.t) return moment.unix(query.t)
+  else return moment().subtract(1, "days")
 }
 export function value() {
   return query.v || 1000

@@ -1,5 +1,6 @@
 {
-  "name": "fiat-conversion",
+  "name": "crypto-fiat-exchange-rate",
+  "homepage": "https://dapplion.github.io/cryptoFiatExchangeRate",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -11,6 +12,7 @@
     "moment": "^2.22.1",
     "prop-types": "^15.6.1",
     "query-string": "^6.1.0",
+    "querystring": "^0.2.0",
     "react": "^16.3.2",
     "react-addons-css-transition-group": "^15.6.2",
     "react-calendar": "^2.14.0",
@@ -28,6 +30,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   }
 }

@@ -9,7 +9,7 @@ export default class CalendarDisplay extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      date: moment.unix(AppStore.getTimestamp())
+      date: AppStore.getTimestamp()
     };
   }
 
@@ -32,8 +32,8 @@ export default class CalendarDisplay extends Component {
       <div className="margin-auto">
           <ReactDatePicker
             className="calendar-input"
-            todayButton={"Today"}
-            maxDate={moment()}
+            todayButton={"Pick a date older than today"}
+            maxDate={moment().subtract(1, "days")}
             selected={this.state.date}
             onChange={this.handleChange.bind(this)}
             dateFormat="ddd, MMMM Do YYYY"
