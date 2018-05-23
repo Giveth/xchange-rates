@@ -100,7 +100,8 @@ a:hover {
 html,
 body {
   height: 100%;
-  background-color: #303030;
+  /* Give it a darker purpleish feeling */
+  background-color: #29282a;
 }
 
 body {
