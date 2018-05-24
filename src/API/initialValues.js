@@ -2,7 +2,7 @@ import querystring from 'querystring'
 import moment from 'moment'
 
 
-const query = querystring.parse(window.location.search) || {}
+const query = querystring.parse(window.location.search.replace('?','')) || {}
 console.log('query',query)
 
 export function left() {

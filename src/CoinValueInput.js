@@ -30,6 +30,7 @@ export default class CoinValueInput extends Component {
   }
 
   render() {
+    console.log('DISPLAY '+this.props.id+' value: ',this.state.value)
     if (this.props.readOnly) {
       if (isNaN(this.state.value)) {
         return (
@@ -55,6 +56,7 @@ export default class CoinValueInput extends Component {
         <input
           type="number"
           className="form-control transparent-input no-spinners"
+          placeholder="input amount..."
           name="coin"
           onChange={this.onChange.bind(this)}
           value={this.state.value}

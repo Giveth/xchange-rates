@@ -2,6 +2,36 @@
  * Globals
 */
 
+.trail { /* className for the trail elements */
+  position: absolute;
+  height: 148px; width: 128px;
+  border-radius: 3px;
+  /* background-image: url("https://media.giphy.com/media/vczfqM8tk2ITBHVbC8/giphy.gif"); */
+  background-image: url("https://media.giphy.com/media/1xoZDFiwTKK7cFjbWt/giphy.gif");
+}
+
+.like-link {
+  color: #fff;
+  cursor: pointer;
+}
+
+.equal-span {
+  text-align: center;
+  line-height: 1.21428571em;
+  font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+  font-size: 150%;
+  padding: 6px;
+  border-radius: .28571429rem;
+}
+
+.exchange-button {
+  text-align: center;
+  line-height: 1.21428571em;
+  font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+  padding: 6px;
+  border-radius: .28571429rem;
+}
+
 .copy-button:hover {
   background-color: #e9ecef;
 }
@@ -14,6 +44,11 @@
   width: 15px;
   height: 15px;
   margin-right: 10px;
+}
+
+.exchange-icon {
+  width: 21px;
+  height: 21px;
 }
 
 .slim-nav-text {
@@ -31,14 +66,14 @@
 }
 
 .transparent-dropdown {
-
+  color: black;
 }
 
 .transparent-input {
   /* background: transparent;
   color: white; */
   font-size: 120%;
-  text-align: right;
+  text-align: left;
   /* border: 0px solid; */
 }
 
@@ -112,6 +147,12 @@ body {
   -webkit-box-pack: center;
   justify-content: center;
   color: #fff;
+}
+
+body.fun {
+  background-image: url("https://media.giphy.com/media/kkoRgXbTCPY3K/giphy.gif");
+  background-color: pink;
+  background-size: 1000px;
 }
 
 .cover-container {

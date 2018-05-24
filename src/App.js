@@ -7,14 +7,18 @@ import 'semantic-ui-css/semantic.min.css'
 import './App.css'
 // import components
 import CoinNameInput from './CoinNameInput';
+import CoinNameInput2 from './CoinNameInput2';
 import CoinValueInput from './CoinValueInput';
 import CalendarDisplay from './CalendarDisplay';
 import CopyLinkButton from './CopyLinkButton'
+import ExchangeButton from './ExchangeButton'
+import Footer from './Footer'
 // API CALLS
 import './API/coinList'
 // import './API/cm'
 // import parameters
 import params from './params'
+import './giveth'
 // Start component
 
 new ClipboardJS('.btn');
@@ -29,14 +33,6 @@ const Header = props =>
       </nav>
     </div>
   </header>;
-
-
-const Footer = props =>
-  <footer className="mastfoot mt-auto">
-    <div className="inner text-center">
-      <p>A <a href="https://giveth.io/">Giveth</a> Social Coding project by <a href="https://github.com/dapplion">dapplion</a>, data from <a href="https://www.cryptocompare.com/api/#">CryptoCompare</a>.</p>
-    </div>
-  </footer>;
 
 
 class App extends Component {
@@ -58,21 +54,26 @@ class App extends Component {
             </div>
 
             <div className="row">
-              <div className="col-12 col-sm-6 mb-4">
-                <div className="input-group">
-                  <CoinValueInput id={'left'}/>
-                  <div className="input-group-append">
-                    <CoinNameInput id={'left'}/>
-                  </div>
-                </div>
+              <div className="col-12 col-sm-5">
+                <CoinValueInput id={'left'}/>
               </div>
-              <div className="col-12 col-sm-6 mb-4">
-                <div className="input-group">
-                  <CoinValueInput id={'right'} readOnly={true}/>
-                  <div className="input-group-append">
-                    <CoinNameInput id={'right'}/>
-                  </div>
-                </div>
+              <div className="col-12 col-sm-2 text-center">
+                <span className="equal-span">=</span>
+              </div>
+              <div className="col-12 col-sm-5">
+                <CoinValueInput id={'right'} readOnly={true}/>
+              </div>
+            </div>
+
+            <div className="row mb-4">
+              <div className="col-12 col-sm-5">
+                <CoinNameInput2 id={'left'}/>
+              </div>
+              <div className="col-12 col-sm-2 text-center">
+                <ExchangeButton/>
+              </div>
+              <div className="col-12 col-sm-5">
+                <CoinNameInput2 id={'right'}/>
               </div>
             </div>
 

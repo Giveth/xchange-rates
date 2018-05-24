@@ -1,36 +1,20 @@
 import dispatcher from "../dispatcher";
 import AppStore from '../stores/AppStore';
-import getPrice from '../API/price';
-import computeRightOptions from '../API/coinList';
 
 
-export function updateLeftCoinOptions(variable) {
-  console.log('updateLeftCoinOptions #',variable.length)
+export function updateOptions(options, id) {
+  console.log('updateRightCoinOptions # ',options.length)
   dispatcher.dispatch({
-    type: AppStore.tag.UPDATE_LEFT_OPTIONS,
-    variable: variable
-  });
-}
-
-export function updateRightCoinOptions(variable) {
-  console.log('updateRightCoinOptions #',variable.length)
-  dispatcher.dispatch({
-    type: AppStore.tag.UPDATE_RIGHT_OPTIONS,
-    variable: variable
-  });
-}
-
-export function updateMarkets(variable) {
-  dispatcher.dispatch({
-    type: AppStore.tag.UPDATE_MARKETS,
-    variable: variable
+    type: AppStore.tag.UPDATE_OPTIONS,
+    id,
+    options
   });
 }
 
 export function updateTimestamp(timestamp) {
   dispatcher.dispatch({
     type: AppStore.tag.UPDATE_TIMESTAMP,
-    variable: timestamp
+    timestamp: timestamp
   });
 }
 
@@ -41,47 +25,18 @@ export function updateValue(value) {
   });
 }
 
+export function updateMarkets(markets) {
+  dispatcher.dispatch({
+    type: AppStore.tag.UPDATE_MARKETS,
+    markets
+  });
+}
+
 export function updateName(name, id) {
-  if (id === 'left') computeRightOptions(name)
   dispatcher.dispatch({
     type: AppStore.tag.UPDATE_NAME,
     id,
     name
-  });
-}
-
-export function updateLeftCoin(leftCoin) {
-  computeRightOptions(leftCoin)
-  dispatcher.dispatch({
-    type: AppStore.tag.UPDATE_LEFT_COIN,
-    variable: leftCoin
-  });
-  getPrice({
-    leftCoin: leftCoin
-  })
-}
-
-export function updateLeftValue(variable) {
-  dispatcher.dispatch({
-    type: AppStore.tag.UPDATE_LEFT_VALUE,
-    variable: variable
-  });
-}
-
-export function updateRightCoin(rightCoin) {
-  getPrice({
-    rightCoin: rightCoin
-  })
-  dispatcher.dispatch({
-    type: AppStore.tag.UPDATE_RIGHT_COIN,
-    variable: rightCoin
-  });
-}
-
-export function updateRightValue(variable) {
-  dispatcher.dispatch({
-    type: AppStore.tag.UPDATE_RIGHT_VALUE,
-    variable: variable
   });
 }
 

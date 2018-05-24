@@ -3,6 +3,10 @@ import AppStore from '../stores/AppStore';
 import getPrice from './price';
 import * as ORDERED_NAMES from './fiat'
 
+
+let markets = {};
+
+
 function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
 }
@@ -30,21 +34,22 @@ function prioritizeCoinOrder(coinArray) {
   return [...(new Set(coinArray))]
 }
 
-function computeAllCoinOptions(markets) {
+function computeAllCoinOptions() {
   let marketsArray = Object.keys(markets)
   let AllCoinOptions = marketsArray.map(market => market.split('-')[0])
   AllCoinOptions = AllCoinOptions.filter( onlyUnique ); // returns ['a', 1, 2, '1']
   AllCoinOptions.sort()
   AllCoinOptions = prioritizeCoinOrder(AllCoinOptions)
-  AppActions.updateLeftCoinOptions(AllCoinOptions)
+  return AllCoinOptions
 }
 
-// let preAprovedExchanges = ['Coinbase']
+const preAprovedExchanges = ['OKEX','Binance','Huobi','Bitfinex','Upbit','Bithumb','Kraken','HitBTC','Bitstamp','BitZ','Bibox','BitTrex']
+
 getCoinListApiAsync(function(res){
   let coinArchive = {};
-  let markets = {};
   for (let exchange in res) {
     // if (preAprovedExchanges.includes(exchange)) {
+    if (true) {
       for (let leftCoin in res[exchange]) {
         // Initialize the object if it doesn't exist
         if (!/[^a-z]/i.test(leftCoin)) {
@@ -62,7 +67,7 @@ getCoinListApiAsync(function(res){
           }
         }
       }
-    // }
+    }
   }
   // Write the list of reverse markets
   for (let market in markets) {
@@ -76,21 +81,19 @@ getCoinListApiAsync(function(res){
   console.log('got '+Object.getOwnPropertyNames(markets).length+' markets')
 
   // Export results
-  AppActions.updateMarkets(markets)
-  computeAllCoinOptions(markets)
-  getPrice({})
-  computeCoinOptions()
+  const AllCoinOptions = computeAllCoinOptions(markets)
+  AppActions.updateOptions(AllCoinOptions, 'left')
+  const coinOptions = computeCoinOptions(AppStore.getName('left'))
+  AppActions.updateOptions(coinOptions, 'right')
 })
 
 export default function computeCoinOptions(coin) {
   if (!coin) coin = AppStore.getLeftCoin()
-  let markets = AppStore.getMarkets()
   let marketsArray = Object.keys(markets)
   let selectedMarketsArray = marketsArray.filter(market => market.split('-')[0] === coin)
   let coinOptions = selectedMarketsArray.map(market => market.split('-')[1])
   coinOptions = coinOptions.sort()
   coinOptions = prioritizeCoinOrder(coinOptions)
-  AppActions.updateRightCoinOptions(coinOptions)
   return coinOptions
 }
 

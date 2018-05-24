@@ -1,48 +1,51 @@
 import { EventEmitter } from 'events'
 import dispatcher from '../dispatcher'
 import params from '../params'
-import getPrice from '../API/price'
 import * as utils from '../utils'
-// Initial values
 import * as initialValue from '../API/initialValues'
-
-
+import computeCoinOptions from '../API/coinList';
+import getPrice from '../API/price';
 
 class AppStore extends EventEmitter {
   constructor() {
     super()
+    // get initial values
+    const left = initialValue.left()
+    const right = initialValue.right()
+    const timestamp = initialValue.timestamp()
+    const value = initialValue.value()
+
     this.name = {
-      left: initialValue.left(),
-      right: initialValue.right()
+      left: left,
+      right: right
     }
     this.value = {
-      left: initialValue.value(),
+      left: value,
       right: '-'
     }
-    this.timestamp = initialValue.timestamp()
+    this.timestamp = timestamp
     this.options = {
-      left: ['EUR','USD'],
-      right: ['ETH','BTC']
+      left: [left],
+      right: [right]
     }
-    this.leftCoin = params.leftCoin
-    this.leftValue = params.leftValue
-    this.rightCoin = params.rightCoin
-    this.rightValue = params.rightValue
-    this.leftOptions = []
-    this.rightOptions = []
     this.markets = {}
-    this.price = params.price
+
+    // Do the initial fetch
+    let _this = this
+    getPrice({ left, right, timestamp }).then(price => {
+      console.log('REQ price from AppStore-: ',price)
+      _this.price = price
+      _this.value.right = utils.multiply(_this.value.left, price)
+      this.emit(this.tag.CHANGE_DISPLAY);
+    })
 
     this.tag = {
       UPDATE_VALUE: 'UPDATE_VALUE',
-      UPDATE_LEFT_COIN: 'UPDATE_LEFT_COIN',
-      UPDATE_LEFT_VALUE: 'UPDATE_LEFT_VALUE',
-      UPDATE_RIGHT_COIN: 'UPDATE_RIGHT_COIN',
-      UPDATE_RIGHT_VALUE: 'UPDATE_RIGHT_VALUE',
-      UPDATE_MARKETS: 'UPDATE_MARKETS',
-      UPDATE_LEFT_OPTIONS: 'UPDATE_LEFT_OPTIONS',
-      UPDATE_RIGHT_OPTIONS: 'UPDATE_RIGHT_OPTIONS',
+      UPDATE_NAME: 'UPDATE_NAME',
+      UPDATE_OPTIONS: 'UPDATE_OPTIONS',
       UPDATE_TIMESTAMP: 'UPDATE_TIMESTAMP',
+      UPDATE_PRICE: 'UPDATE_PRICE',
+      UPDATE_MARKETS: 'UPDATE_MARKETS',
       CHANGE: 'CHANGE',
       INIT: 'INIT',
       CHANGE_VALUES: 'CHANGE_VALUES',
@@ -50,9 +53,11 @@ class AppStore extends EventEmitter {
         left: 'CHANGE_OPTIONS_LEFT',
         right: 'CHANGE_OPTIONS_RIGHT'
       },
-      UPDATE_PRICE: 'UPDATE_PRICE',
-      CHANGE_LEFT_OPTIONS: 'CHANGE_LEFT_OPTIONS',
-      CHANGE_RIGHT_OPTIONS: 'CHANGE_RIGHT_OPTIONS',
+      CHANGE_NAME: {
+        left: 'CHANGE_NAME_LEFT',
+        right: 'CHANGE_NAME_RIGHT'
+      },
+      EXCHANGE: 'EXCHANGE',
       CHANGE_PRICE: 'CHANGE_PRICE',
       CHANGE_DISPLAY: 'CHANGE_DISPLAY'
     }
@@ -99,6 +104,14 @@ class AppStore extends EventEmitter {
 
   handleActions(action) {
     switch(action.type) {
+      case this.tag.EXCHANGE: {
+        const left = this.name.left
+        const right = this.name.right
+        this.name.left = right
+        this.name.right = left
+        this.emit(this.tag.SWITCHED_NAMES);
+        break;
+      }
       case this.tag.UPDATE_VALUE: {
         this.value.left = action.value;
         this.value.right = utils.multiply(action.value, this.price)
@@ -107,7 +120,15 @@ class AppStore extends EventEmitter {
       }
       case this.tag.UPDATE_NAME: {
         this.name[action.id] = action.name;
-        getPrice()
+        if (action.id === 'left') {
+          this.options.right = computeCoinOptions(action.name)
+          this.emit(this.tag.CHANGE_OPTIONS['right'])
+          if (!this.options.right.includes(this.name['right'])) {
+            this.name['right'] = this.options.right[0]
+            this.emit(this.tag.CHANGE_NAME['right']);
+          }
+        }
+        this.emit(this.tag.CHANGE_NAME[action.id]);
         this.emit(this.tag.CHANGE_DISPLAY);
         break;
       }
@@ -115,31 +136,26 @@ class AppStore extends EventEmitter {
         this.price = action.price;
         this.value.right = utils.multiply(this.value.left, this.price)
         this.emit(this.tag.CHANGE_DISPLAY);
+        // Verifiers for development
+        if (isNaN(action.price)) throw Error('action.price is NaN '+action.price)
+        if (isNaN(this.value.right)) throw Error('this.value.right is NaN '+this.value.right)
         break;
       }
-      case this.tag.UPDATE_LEFT_OPTIONS: {
-        this.options.left = action.variable;
-        this.emit(this.tag.CHANGE_OPTIONS['left']);
-        break;
-      }
-      case this.tag.UPDATE_RIGHT_OPTIONS: {
-        this.options.right = action.variable;
-        this.emit(this.tag.CHANGE_OPTIONS['right']);
+      case this.tag.UPDATE_OPTIONS: {
+        this.options[action.id] = action.options;
+        this.emit(this.tag.CHANGE_OPTIONS[action.id]);
         break;
       }
       case this.tag.UPDATE_MARKETS: {
         this.markets = action.variable;
-        this.emit(this.tag.CHANGE);
-        this.emit(this.tag.INIT);
         break;
       }
       case this.tag.UPDATE_TIMESTAMP: {
-        this.timestamp = action.variable;
+        this.timestamp = action.timestamp;
         getPrice()
         this.emit(this.tag.CHANGE_DISPLAY);
         break;
       }
-
       default:
         console.error('AppStore called without a matching tag. Available tags: ',this.tag)
     }
