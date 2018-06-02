@@ -1,6 +1,5 @@
 import * as AppActions from '../actions/AppActions'
 import AppStore from '../stores/AppStore';
-import getPrice from './price';
 import * as ORDERED_NAMES from './fiat'
 
 
@@ -43,7 +42,7 @@ function computeAllCoinOptions() {
   return AllCoinOptions
 }
 
-const preAprovedExchanges = ['OKEX','Binance','Huobi','Bitfinex','Upbit','Bithumb','Kraken','HitBTC','Bitstamp','BitZ','Bibox','BitTrex']
+// const preAprovedExchanges = ['OKEX','Binance','Huobi','Bitfinex','Upbit','Bithumb','Kraken','HitBTC','Bitstamp','BitZ','Bibox','BitTrex']
 
 getCoinListApiAsync(function(res){
   let coinArchive = {};

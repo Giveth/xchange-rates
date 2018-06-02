@@ -11,12 +11,15 @@ export default class CopyLinkButton extends Component {
       left: AppStore.getName('left'),
       right: AppStore.getName('right'),
       timestamp: AppStore.getTimestamp(),
-      value: AppStore.getValue('left')
+      value: AppStore.getValue('left'),
+      tag: (window.location.search.replace('?','').replace(' ','') === '') ? 'Copy' : 'Copy updated',
+      hasChanged: AppStore.getHasChanged()
     }
     this.updateLeft = this.updateLeft.bind(this)
     this.updateRight = this.updateRight.bind(this)
     this.updateTimestamp = this.updateTimestamp.bind(this)
     this.updateValue = this.updateValue.bind(this)
+    this.updateHasChanged = this.updateHasChanged.bind(this)
   }
 
   componentWillMount() {
@@ -24,6 +27,7 @@ export default class CopyLinkButton extends Component {
     AppStore.on(AppStore.tag.CHANGE_DISPLAY, this.updateRight);
     AppStore.on(AppStore.tag.CHANGE_DISPLAY, this.updateTimestamp);
     AppStore.on(AppStore.tag.CHANGE_DISPLAY, this.updateValue);
+    AppStore.on(AppStore.tag.CHANGE_DISPLAY, this.updateHasChanged);
   }
 
   componentWillUnmount() {
@@ -31,6 +35,7 @@ export default class CopyLinkButton extends Component {
     AppStore.removeListener(AppStore.tag.CHANGE_DISPLAY, this.updateRight);
     AppStore.removeListener(AppStore.tag.CHANGE_DISPLAY, this.updateTimestamp);
     AppStore.removeListener(AppStore.tag.CHANGE_DISPLAY, this.updateValue);
+    AppStore.removeListener(AppStore.tag.CHANGE_DISPLAY, this.updateHasChanged);
   }
 
   updateLeft() {
@@ -44,6 +49,9 @@ export default class CopyLinkButton extends Component {
   }
   updateValue() {
     this.setState({ value: AppStore.getValue('left') })
+  }
+  updateHasChanged() {
+    this.setState({ hasChanged: AppStore.getHasChanged() })
   }
 
   generateUrl() {
@@ -63,19 +71,15 @@ export default class CopyLinkButton extends Component {
   render() {
     const url = this.generateUrl()
 
-    if (false) {
-      return (
-        null
-      );
-    } else {
-      return (
+    return (
+      <div className={"copy-button-js "+(this.state.hasChanged ? 'active' : '')}>
         <button className="btn copy-button" data-clipboard-text={url}
           onClick={this.showUrl.bind(this)}
         >
           <img src={linkIcon} alt="" className="link-icon"/>
-          Copy link
+          {this.state.tag+' link'}
         </button>
-      );
-    }
+      </div>
+    );
   }
 }

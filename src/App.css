@@ -1,6 +1,37 @@
 /*
  * Globals
 */
+.copy-button-js {
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: opacity 600ms, visibility 600ms;
+  transition: opacity 600ms, visibility 600ms;
+}
+.copy-button-js.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.input-group-value {
+  width: 60%;
+}
+
+.input-group-name {
+  width: 30%;
+}
+
+.col-sm-2 {
+  flex-basis: 14%;
+  max-width: 14%;
+  position: relative;
+  padding: 0px;
+}
+
+.col-sm-5 {
+  flex-basis: 43%;
+  max-width: 43%;
+  padding: 0px;
+}
 
 .trail { /* className for the trail elements */
   position: absolute;
@@ -69,11 +100,20 @@
   color: black;
 }
 
+/* This is the dropdown input */
+.Select-control {
+  border-radius: 5px !important;
+  border-top-right-radius: 0px !important;
+  border-top-left-radius: 0px !important;
+}
+
 .transparent-input {
   /* background: transparent;
   color: white; */
-  font-size: 120%;
+  font-size: 110%;
   text-align: left;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
   /* border: 0px solid; */
 }
 

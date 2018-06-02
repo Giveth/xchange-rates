@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDatePicker from 'react-datepicker'
 import moment from 'moment'
+import getPrice from './API/price';
 import AppStore from './stores/AppStore'
 import * as AppActions from './actions/AppActions'
 
@@ -23,6 +24,16 @@ export default class CalendarDisplay extends Component {
     this.setState({ date });
     let timestamp = date.startOf('date').add(12, 'hours').unix();
     AppActions.updateTimestamp(timestamp)
+
+    // Fetch new price
+    let req = { timestamp }
+    getPrice(req).then(price => {
+      console.log('REQ price from CoinNameInput2-'+this.props.id+': ',price)
+      AppActions.updatePrice(price)
+    })
+
+    // The user changed something
+    AppActions.updateHasChanged()
   }
 
   onChange = date => this.setState({ date })

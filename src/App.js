@@ -6,7 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'semantic-ui-css/semantic.min.css'
 import './App.css'
 // import components
-import CoinNameInput from './CoinNameInput';
 import CoinNameInput2 from './CoinNameInput2';
 import CoinValueInput from './CoinValueInput';
 import CalendarDisplay from './CalendarDisplay';
@@ -28,7 +27,7 @@ const Header = props =>
   <header className="masthead mb-auto">
     <div className="inner">
       <h3 className="masthead-brand">{params.headerTitle}</h3>
-      <nav className="nav nav-masthead justify-content-center">
+      <nav className="nav nav-masthead justify-content-end">
         <a href={params.link1.href} className="nav-link slim-nav-text">{params.link1.name}</a>
       </nav>
     </div>

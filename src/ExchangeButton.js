@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import querystring from 'querystring'
 import AppStore from './stores/AppStore'
 import * as AppActions from './actions/AppActions'
 import exchangeIcon from './assets/exchange2.svg'

@@ -46,3 +46,9 @@ export function updatePrice(price) {
     price: price
   });
 }
+
+export function updateHasChanged() {
+  dispatcher.dispatch({
+    type: AppStore.tag.UPDATE_HASCHANGED
+  });
+}

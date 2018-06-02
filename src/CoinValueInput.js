@@ -27,30 +27,25 @@ export default class CoinValueInput extends Component {
   onChange(event) {
     let value = event.target.value;
     AppActions.updateValue(value)
+
+    // The user changed something
+    AppActions.updateHasChanged()
   }
 
   render() {
-    console.log('DISPLAY '+this.props.id+' value: ',this.state.value)
     if (this.props.readOnly) {
-      if (isNaN(this.state.value)) {
-        return (
-          <input
-            className="form-control transparent-input no-spinners"
-            readOnly
-            value={'loading...'}
-          />
-        );
-      } else {
-        return (
-          <input
-            type="number"
-            className="form-control transparent-input no-spinners"
-            name="coin"
-            readOnly
-            value={this.state.value}
-          />
-        );
-      }
+      // don't display broken numbers
+      const value = isNaN(this.state.value) ? 'loading...' : this.state.value
+      return (
+        <input
+          type="number"
+          className="form-control transparent-input no-spinners"
+          name="coin"
+          readOnly
+          value={value}
+        />
+      );
+
     } else {
       return (
         <input

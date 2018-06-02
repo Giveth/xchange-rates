@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
-import createClass from 'create-react-class';
 import VirtualizedSelect from 'react-virtualized-select';
 import * as AppActions from './actions/AppActions'
 import AppStore from './stores/AppStore'
 import getPrice from './API/price';
-import computeRightOptions from './API/coinList';
 
 import 'react-select/dist/react-select.css'
 import 'react-virtualized/styles.css'
@@ -44,12 +42,17 @@ export default class CoinNameInput extends Component {
 
   onNameChange(newValue) {
     AppActions.updateName(newValue, this.props.id)
+
+    // Fetch new price
     let req = {}
     req[this.props.id] = newValue
     getPrice(req).then(price => {
       console.log('REQ price from CoinNameInput2-'+this.props.id+': ',price)
       AppActions.updatePrice(price)
     })
+
+    // The user changed something
+    AppActions.updateHasChanged()
   }
 
   render() {
@@ -60,20 +63,18 @@ export default class CoinNameInput extends Component {
       return { name: coin }
     })
     return (
-      <div>
-				<VirtualizedSelect ref="coinSelect"
-					options={optionsFormated}
-					simpleValue
-					clearable={false}
-					className={"transparent-dropdown"}
-					name="select-coin"
-					value={this.state.name}
-					onChange={this.onNameChange.bind(this)}
-					searchable
-					labelKey="name"
-					valueKey="name"
-				/>
-      </div>
+			<VirtualizedSelect ref="coinSelect"
+				options={optionsFormated}
+				simpleValue
+				clearable={false}
+				className={"transparent-dropdown"}
+				name="select-coin"
+				value={this.state.name}
+				onChange={this.onNameChange.bind(this)}
+				searchable
+				labelKey="name"
+				valueKey="name"
+			/>
     );
   }
 }

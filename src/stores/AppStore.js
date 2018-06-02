@@ -1,6 +1,5 @@
 import { EventEmitter } from 'events'
 import dispatcher from '../dispatcher'
-import params from '../params'
 import * as utils from '../utils'
 import * as initialValue from '../API/initialValues'
 import computeCoinOptions from '../API/coinList';
@@ -32,7 +31,9 @@ class AppStore extends EventEmitter {
 
     // Do the initial fetch
     let _this = this
-    getPrice({ left, right, timestamp }).then(price => {
+    const req = { left, right, timestamp: timestamp.unix() }
+    console.log('URL req: ',req)
+    getPrice(req).then(price => {
       console.log('REQ price from AppStore-: ',price)
       _this.price = price
       _this.value.right = utils.multiply(_this.value.left, price)
@@ -46,6 +47,7 @@ class AppStore extends EventEmitter {
       UPDATE_TIMESTAMP: 'UPDATE_TIMESTAMP',
       UPDATE_PRICE: 'UPDATE_PRICE',
       UPDATE_MARKETS: 'UPDATE_MARKETS',
+      UPDATE_HASCHANGED: 'UPDATE_HASCHANGED',
       CHANGE: 'CHANGE',
       INIT: 'INIT',
       CHANGE_VALUES: 'CHANGE_VALUES',
@@ -86,6 +88,9 @@ class AppStore extends EventEmitter {
   }
   getPrice() {
     return this.price;
+  }
+  getHasChanged() {
+    return this.hasChanged;
   }
 
   getLeftCoin() {
@@ -152,7 +157,11 @@ class AppStore extends EventEmitter {
       }
       case this.tag.UPDATE_TIMESTAMP: {
         this.timestamp = action.timestamp;
-        getPrice()
+        this.emit(this.tag.CHANGE_DISPLAY);
+        break;
+      }
+      case this.tag.UPDATE_HASCHANGED: {
+        this.hasChanged = true;
         this.emit(this.tag.CHANGE_DISPLAY);
         break;
       }

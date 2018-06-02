@@ -1,5 +1,4 @@
 import AppStore from '../stores/AppStore'
-import * as AppActions from '../actions/AppActions'
 
 function getPriceApiAsync(fromCoin, toCoin, timestamp, callback) {
   // Now this api supports the pair as direct and inverse
@@ -18,6 +17,7 @@ export default async function (request = {}){
   let leftCoin = request.left || AppStore.getName('left');
   let rightCoin = request.right || AppStore.getName('right');
   let timestamp = request.timestamp || AppStore.getTimestamp();
+  console.log('TIMESTAMP',timestamp)
 
   // Now this api supports the pair as direct and inverse
   // No need to keep track of the market if it's inverse or direct
