@@ -13,11 +13,15 @@ export default class ExchangeButton extends Component {
     console.log('EXCHANGING '+left+' <-> '+right)
     AppActions.updateName(right, 'left')
     AppActions.updateName(left, 'right')
+
     // Get new price
     getPrice({ left: right, right: left }).then(price => {
       console.log('OMG: price: ',price)
       AppActions.updatePrice(price)
     })
+
+    // The user changed something
+    AppActions.updateHasChanged()
   }
 
   render() {
