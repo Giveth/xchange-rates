@@ -7,5 +7,8 @@ you can get a link that will load the specific pair and date and value that you 
 ### Live website: 
 [https://giveth.github.io/exchange-rates/](https://giveth.github.io/exchange-rates/)
 
-
-![](https://raw.githubusercontent.com/dapplion/cryptoFiatExchangeRate/e677948f0bcdb9be29737a06660b7544cb86b547/docs/demo.gif "Logo Title Text 1")
+<p align="center">
+  <a href="https://giveth.github.io/exchange-rates/">
+    <img src="https://raw.githubusercontent.com/dapplion/cryptoFiatExchangeRate/e677948f0bcdb9be29737a06660b7544cb86b547/docs/demo.gif">
+  </a>
+</p>
