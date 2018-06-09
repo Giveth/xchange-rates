@@ -1,6 +1,6 @@
 {
-  "name": "crypto-fiat-exchange-rate",
-  "homepage": "https://dapplion.github.io/cryptoFiatExchangeRate",
+  "name": "xchange-rates",
+  "homepage": "https://giveth.github.io/xchange-rates",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
