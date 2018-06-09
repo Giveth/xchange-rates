@@ -12,6 +12,7 @@ import CalendarDisplay from './CalendarDisplay';
 import CopyLinkButton from './CopyLinkButton'
 import ExchangeButton from './ExchangeButton'
 import Footer from './Footer'
+import givethLogo from './assets/giveth-white-min.png'
 // API CALLS
 import './API/coinList'
 // import './API/cm'
@@ -43,7 +44,7 @@ class App extends Component {
         <Header />
 
         <main role="main" className="inner cover">
-          <h1 className="cover-heading text-center">{params.title}</h1>
+          <h1 className="cover-heading text-center">XCHAN<img src={givethLogo} alt="" className="header-icon"/>E RATES</h1>
           <div className="container">
 
             <div className="row mb-4">

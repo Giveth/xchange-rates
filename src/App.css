@@ -1,6 +1,12 @@
 /*
  * Globals
 */
+.header-icon {
+  width: 50px;
+  position: relative;
+  top: -7px;
+}
+
 .copy-button-js {
   opacity: 0;
   visibility: hidden;
