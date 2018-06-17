@@ -142,8 +142,8 @@ class AppStore extends EventEmitter {
         this.value.right = utils.multiply(this.value.left, this.price)
         this.emit(this.tag.CHANGE_DISPLAY);
         // Verifiers for development
-        if (isNaN(action.price)) throw Error('action.price is NaN '+action.price)
-        if (isNaN(this.value.right)) throw Error('this.value.right is NaN '+this.value.right)
+        if (isNaN(action.price)) console.warn('action.price is NaN '+action.price)
+        if (isNaN(this.value.right)) console.warn('this.value.right is NaN '+this.value.right)
         break;
       }
       case this.tag.UPDATE_OPTIONS: {

@@ -16,7 +16,6 @@ export default class ExchangeButton extends Component {
 
     // Get new price
     getPrice({ left: right, right: left }).then(price => {
-      console.log('OMG: price: ',price)
       AppActions.updatePrice(price)
     })
 

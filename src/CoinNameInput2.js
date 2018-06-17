@@ -47,7 +47,6 @@ export default class CoinNameInput extends Component {
     let req = {}
     req[this.props.id] = newValue
     getPrice(req).then(price => {
-      console.log('REQ price from CoinNameInput2-'+this.props.id+': ',price)
       AppActions.updatePrice(price)
     })
 
