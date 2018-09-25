@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import AppStore from './stores/AppStore'
-import * as AppActions from './actions/AppActions'
-import exchangeIcon from './assets/exchange2.svg'
-import getPrice from './API/price'
+import AppStore from '../stores/AppStore'
+import * as AppActions from '../actions/AppActions'
+import exchangeIcon from '../assets/exchange2.svg'
+import getPrice from '../API/price'
 
 
 export default class ExchangeButton extends Component {

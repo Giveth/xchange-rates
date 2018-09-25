@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import * as giveth from './giveth'
+import * as giveth from '../giveth'
 
 export default class Footer extends Component {
 

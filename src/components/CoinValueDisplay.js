@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { FormGroup, Input } from 'reactstrap'
 import { Container, Row, Col } from 'reactstrap'
-import AppStore from './stores/AppStore';
-import * as AppActions from './actions/AppActions'
-import * as utils from './utils'
+import AppStore from '../stores/AppStore';
+import * as AppActions from '../actions/AppActions'
+import * as utils from '../utils'
 
 class CoinValue extends Component {
 
@@ -73,12 +73,22 @@ export default class CoinValueDisplay extends Component {
 
   render() {
     return (
-      <div>
-        <CoinValue
-        onValueChange={this.onLeftValueChange.bind(this)}
-        value={this.state.leftValue}
-        />
-      </div>
+      <Container>
+        <Row>
+          <Col xs="6">
+            <CoinValue
+            onValueChange={this.onLeftValueChange.bind(this)}
+            value={this.state.leftValue}
+            />
+          </Col>
+          <Col xs="6">
+            <CoinValue
+            onValueChange={this.onRightValueChange.bind(this)}
+            value={this.state.rightValue}
+            />
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }

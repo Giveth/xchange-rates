@@ -6,12 +6,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'semantic-ui-css/semantic.min.css'
 import './App.css'
 // import components
-import CoinNameInput2 from './CoinNameInput2';
-import CoinValueInput from './CoinValueInput';
-import CalendarDisplay from './CalendarDisplay';
-import CopyLinkButton from './CopyLinkButton'
-import ExchangeButton from './ExchangeButton'
-import Footer from './Footer'
+import CoinNameInput from './components/CoinNameInput';
+import CoinValueInput from './components/CoinValueInput';
+import CalendarDisplay from './components/CalendarDisplay';
+import CopyLinkButton from './components/CopyLinkButton'
+import ExchangeButton from './components/ExchangeButton'
+import Footer from './components/Footer'
 import givethLogo from './assets/giveth-white-min.png'
 // API CALLS
 import './API/coinList'
@@ -29,7 +29,7 @@ const Header = props =>
     <div className="inner">
       <h3 className="masthead-brand">{params.headerTitle}</h3>
       <nav className="nav nav-masthead justify-content-end">
-        <a href={params.link1.href} className="nav-link slim-nav-text">{params.link1.name}</a>
+        <a href={params.link1.href} className="nav-link slim-nav-text" style={{fontWeight: 300, color: '#ffffff40'}}>{params.link1.name}</a>
       </nav>
     </div>
   </header>;
@@ -67,13 +67,13 @@ class App extends Component {
 
             <div className="row mb-4">
               <div className="col-12 col-sm-5">
-                <CoinNameInput2 id={'left'}/>
+                <CoinNameInput id={'left'}/>
               </div>
               <div className="col-12 col-sm-2 text-center">
                 <ExchangeButton/>
               </div>
               <div className="col-12 col-sm-5">
-                <CoinNameInput2 id={'right'}/>
+                <CoinNameInput id={'right'}/>
               </div>
             </div>
 
@@ -91,27 +91,6 @@ class App extends Component {
     );
   }
 }
-
-// <CoinValueDisplay
-//   price={this.state.price}
-// />
-// <CoinListDisplays
-//   price={this.state.price}
-// />
-
-
-// <div className="ui inverted vertical masthead center aligned segment main">
-//   <div className="ui text container">
-//     <Container>
-//       <h1 className="ui inverted header">{params.title}</h1>
-//       <h3>{params.subtitle}</h3>
-//
-//     </Container>
-//   </div>
-// </div>
-
-
-
 
 
 export default App;

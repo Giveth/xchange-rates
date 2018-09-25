@@ -1,5 +1,5 @@
 
-let DECIMAL_PLACES = 3;
+let DECIMAL_PLACES = 6;
 function smartRound(c) {
   if (c === 0) {
     return c.toFixed(0)

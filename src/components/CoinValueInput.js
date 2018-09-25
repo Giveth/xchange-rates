@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import * as AppActions from './actions/AppActions'
-import AppStore from './stores/AppStore'
+import * as AppActions from '../actions/AppActions'
+import AppStore from '../stores/AppStore'
 
 
 export default class CoinValueInput extends Component {

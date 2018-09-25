@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import { Container, Row, Col } from 'reactstrap'
-import AppStore from './stores/AppStore'
+import AppStore from '../stores/AppStore'
 import { FormGroup } from 'reactstrap'
 import { Dropdown } from 'semantic-ui-react'
-import * as AppActions from './actions/AppActions'
-import params from './params'
+import * as AppActions from '../actions/AppActions'
+import params from '../params'
 
 // This component receive lists of options
 // and updates the user's coin selection

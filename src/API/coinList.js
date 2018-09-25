@@ -96,20 +96,3 @@ export default function computeCoinOptions(coin) {
   return coinOptions
 }
 
-
-
-  // Now you have an object with keys for every single coin available
-  // This keys refer to another object which has pairs for every pair
-  // let leftCoinOptions = [];
-  // let rightCoinOptionsObject = {};
-  // for (let leftCoin in coinArchive) {
-  //   leftCoinOptions.push(leftCoin)
-  //   rightCoinOptionsObject[leftCoin] = [];
-  //   for (let rightCoin in coinArchive[leftCoin]) {
-  //     rightCoinOptionsObject[leftCoin].push(rightCoin)
-  //   }
-  //   rightCoinOptionsObject[leftCoin].sort()
-  // }
-  // leftCoinOptions.sort()
-  // _this.setState({ leftCoinOptions })
-  // _this.setState({ rightCoinOptionsObject })

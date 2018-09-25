@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import VirtualizedSelect from 'react-virtualized-select';
-import * as AppActions from './actions/AppActions'
-import AppStore from './stores/AppStore'
-import getPrice from './API/price';
+import * as AppActions from '../actions/AppActions'
+import AppStore from '../stores/AppStore'
+import getPrice from '../API/price';
 
 import 'react-select/dist/react-select.css'
 import 'react-virtualized/styles.css'

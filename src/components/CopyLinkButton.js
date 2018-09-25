@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import querystring from 'querystring'
-import AppStore from './stores/AppStore'
-import linkIcon from './assets/link.svg'
+import AppStore from '../stores/AppStore'
+import linkIcon from '../assets/link.svg'
 
 
 export default class CopyLinkButton extends Component {

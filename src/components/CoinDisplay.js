@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import AppStore from './stores/AppStore'
+import AppStore from '../stores/AppStore'
 // This component receive lists of options
 // and updates the user's coin selection
 

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import ReactDatePicker from 'react-datepicker'
 import moment from 'moment'
-import getPrice from './API/price';
-import AppStore from './stores/AppStore'
-import * as AppActions from './actions/AppActions'
+import getPrice from '../API/price';
+import AppStore from '../stores/AppStore'
+import * as AppActions from '../actions/AppActions'
 
 
 export default class CalendarDisplay extends Component {
