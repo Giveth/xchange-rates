@@ -1,9 +1,8 @@
 import dispatcher from "../dispatcher";
-import AppStore from '../stores/AppStore';
-
+import AppStore from "../stores/AppStore";
 
 export function updateOptions(options, id) {
-  console.log('updateRightCoinOptions # ',options.length)
+  console.log("updateRightCoinOptions # ", options.length);
   dispatcher.dispatch({
     type: AppStore.tag.UPDATE_OPTIONS,
     id,

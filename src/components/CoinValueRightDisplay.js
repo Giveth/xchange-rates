@@ -1,15 +1,14 @@
-import React, { Component } from 'react'
-import * as AppActions from '../actions/AppActions'
-import AppStore from '../stores/AppStore'
-
+import React, { Component } from "react";
+import * as AppActions from "../actions/AppActions";
+import AppStore from "../stores/AppStore";
 
 export default class CoinValueInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
       value: AppStore.getValue(this.props.id)
-    }
-    this.updateValue = this.updateValue.bind(this)
+    };
+    this.updateValue = this.updateValue.bind(this);
   }
 
   componentWillMount() {
@@ -21,12 +20,12 @@ export default class CoinValueInput extends Component {
   }
 
   updateValue() {
-    this.setState({ value: AppStore.getValue(this.props.id) })
+    this.setState({ value: AppStore.getValue(this.props.id) });
   }
 
   onChange(event) {
     let value = event.target.value;
-    AppActions.updateValue(value)
+    AppActions.updateValue(value);
   }
 
   render() {

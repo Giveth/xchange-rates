@@ -1,15 +1,14 @@
-import React, { Component } from 'react'
-import * as AppActions from '../actions/AppActions'
-import AppStore from '../stores/AppStore'
-
+import React, { Component } from "react";
+import * as AppActions from "../actions/AppActions";
+import AppStore from "../stores/AppStore";
 
 export default class CoinValueInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
       value: AppStore.getValue(this.props.id)
-    }
-    this.updateValue = this.updateValue.bind(this)
+    };
+    this.updateValue = this.updateValue.bind(this);
   }
 
   componentWillMount() {
@@ -21,21 +20,21 @@ export default class CoinValueInput extends Component {
   }
 
   updateValue() {
-    this.setState({ value: AppStore.getValue(this.props.id) })
+    this.setState({ value: AppStore.getValue(this.props.id) });
   }
 
   onChange(event) {
     let value = event.target.value;
-    AppActions.updateValue(value)
+    AppActions.updateValue(value);
 
     // The user changed something
-    AppActions.updateHasChanged()
+    AppActions.updateHasChanged();
   }
 
   render() {
     if (this.props.readOnly) {
       // don't display broken numbers
-      const value = isNaN(this.state.value) ? 'loading...' : this.state.value
+      const value = isNaN(this.state.value) ? "loading..." : this.state.value;
       return (
         <input
           type="number"
@@ -45,7 +44,6 @@ export default class CoinValueInput extends Component {
           value={value}
         />
       );
-
     } else {
       return (
         <input

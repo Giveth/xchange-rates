@@ -1,25 +1,27 @@
-import React, { Component } from 'react'
-import querystring from 'querystring'
-import AppStore from '../stores/AppStore'
-import linkIcon from '../assets/link.svg'
-
+import React, { Component } from "react";
+import querystring from "querystring";
+import AppStore from "../stores/AppStore";
+import linkIcon from "../assets/link.svg";
 
 export default class CopyLinkButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      left: AppStore.getName('left'),
-      right: AppStore.getName('right'),
+      left: AppStore.getName("left"),
+      right: AppStore.getName("right"),
       timestamp: AppStore.getTimestamp(),
-      value: AppStore.getValue('left'),
-      tag: (window.location.search.replace('?','').replace(' ','') === '') ? 'Copy' : 'Copy updated',
+      value: AppStore.getValue("left"),
+      tag:
+        window.location.search.replace("?", "").replace(" ", "") === ""
+          ? "Copy"
+          : "Copy updated",
       hasChanged: AppStore.getHasChanged()
-    }
-    this.updateLeft = this.updateLeft.bind(this)
-    this.updateRight = this.updateRight.bind(this)
-    this.updateTimestamp = this.updateTimestamp.bind(this)
-    this.updateValue = this.updateValue.bind(this)
-    this.updateHasChanged = this.updateHasChanged.bind(this)
+    };
+    this.updateLeft = this.updateLeft.bind(this);
+    this.updateRight = this.updateRight.bind(this);
+    this.updateTimestamp = this.updateTimestamp.bind(this);
+    this.updateValue = this.updateValue.bind(this);
+    this.updateHasChanged = this.updateHasChanged.bind(this);
   }
 
   componentWillMount() {
@@ -39,19 +41,19 @@ export default class CopyLinkButton extends Component {
   }
 
   updateLeft() {
-    this.setState({ left: AppStore.getName('left') })
+    this.setState({ left: AppStore.getName("left") });
   }
   updateRight() {
-    this.setState({ right: AppStore.getName('right') })
+    this.setState({ right: AppStore.getName("right") });
   }
   updateTimestamp() {
-    this.setState({ timestamp: AppStore.getTimestamp() })
+    this.setState({ timestamp: AppStore.getTimestamp() });
   }
   updateValue() {
-    this.setState({ value: AppStore.getValue('left') })
+    this.setState({ value: AppStore.getValue("left") });
   }
   updateHasChanged() {
-    this.setState({ hasChanged: AppStore.getHasChanged() })
+    this.setState({ hasChanged: AppStore.getHasChanged() });
   }
 
   generateUrl() {
@@ -60,24 +62,30 @@ export default class CopyLinkButton extends Component {
       r: this.state.right,
       t: this.state.timestamp,
       v: this.state.value
-    })
-    return window.location.origin + window.location.pathname + '?' + stringified;
+    });
+    return (
+      window.location.origin + window.location.pathname + "?" + stringified
+    );
   }
 
   showUrl() {
-    console.log('COPIED URL: ',this.generateUrl())
+    console.log("COPIED URL: ", this.generateUrl());
   }
 
   render() {
-    const url = this.generateUrl()
+    const url = this.generateUrl();
 
     return (
-      <div className={"copy-button-js "+(this.state.hasChanged ? 'active' : '')}>
-        <button className="btn copy-button" data-clipboard-text={url}
+      <div
+        className={"copy-button-js " + (this.state.hasChanged ? "active" : "")}
+      >
+        <button
+          className="btn copy-button"
+          data-clipboard-text={url}
           onClick={this.showUrl.bind(this)}
         >
-          <img src={linkIcon} alt="" className="link-icon"/>
-          {this.state.tag+' link'}
+          <img src={linkIcon} alt="" className="link-icon" />
+          {this.state.tag + " link"}
         </button>
       </div>
     );

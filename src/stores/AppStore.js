@@ -1,68 +1,68 @@
-import { EventEmitter } from 'events'
-import dispatcher from '../dispatcher'
-import * as utils from '../utils'
-import * as initialValue from '../API/initialValues'
-import computeCoinOptions from '../API/coinList';
-import getPrice from '../API/price';
+import { EventEmitter } from "events";
+import dispatcher from "../dispatcher";
+import * as utils from "../utils";
+import * as initialValue from "../API/initialValues";
+import computeCoinOptions from "../API/coinList";
+import getPrice from "../API/price";
 
 class AppStore extends EventEmitter {
   constructor() {
-    super()
+    super();
     // get initial values
-    const left = initialValue.left()
-    const right = initialValue.right()
-    const timestamp = initialValue.timestamp()
-    const value = initialValue.value()
+    const left = initialValue.left();
+    const right = initialValue.right();
+    const timestamp = initialValue.timestamp();
+    const value = initialValue.value();
 
     this.name = {
       left: left,
       right: right
-    }
+    };
     this.value = {
       left: value,
-      right: '-'
-    }
-    this.timestamp = timestamp
+      right: "-"
+    };
+    this.timestamp = timestamp;
     this.options = {
       left: [left],
       right: [right]
-    }
-    this.markets = {}
+    };
+    this.markets = {};
 
     // Do the initial fetch
-    let _this = this
-    const req = { left, right, timestamp: timestamp.unix() }
-    console.log('URL req: ',req)
+    let _this = this;
+    const req = { left, right, timestamp: timestamp.unix() };
+    console.log("URL req: ", req);
     getPrice(req).then(price => {
-      console.log('REQ price from AppStore-: ',price)
-      _this.price = price
-      _this.value.right = utils.multiply(_this.value.left, price)
+      console.log("REQ price from AppStore-: ", price);
+      _this.price = price;
+      _this.value.right = utils.multiply(_this.value.left, price);
       this.emit(this.tag.CHANGE_DISPLAY);
-    })
+    });
 
     this.tag = {
-      UPDATE_VALUE: 'UPDATE_VALUE',
-      UPDATE_NAME: 'UPDATE_NAME',
-      UPDATE_OPTIONS: 'UPDATE_OPTIONS',
-      UPDATE_TIMESTAMP: 'UPDATE_TIMESTAMP',
-      UPDATE_PRICE: 'UPDATE_PRICE',
-      UPDATE_MARKETS: 'UPDATE_MARKETS',
-      UPDATE_HASCHANGED: 'UPDATE_HASCHANGED',
-      CHANGE: 'CHANGE',
-      INIT: 'INIT',
-      CHANGE_VALUES: 'CHANGE_VALUES',
+      UPDATE_VALUE: "UPDATE_VALUE",
+      UPDATE_NAME: "UPDATE_NAME",
+      UPDATE_OPTIONS: "UPDATE_OPTIONS",
+      UPDATE_TIMESTAMP: "UPDATE_TIMESTAMP",
+      UPDATE_PRICE: "UPDATE_PRICE",
+      UPDATE_MARKETS: "UPDATE_MARKETS",
+      UPDATE_HASCHANGED: "UPDATE_HASCHANGED",
+      CHANGE: "CHANGE",
+      INIT: "INIT",
+      CHANGE_VALUES: "CHANGE_VALUES",
       CHANGE_OPTIONS: {
-        left: 'CHANGE_OPTIONS_LEFT',
-        right: 'CHANGE_OPTIONS_RIGHT'
+        left: "CHANGE_OPTIONS_LEFT",
+        right: "CHANGE_OPTIONS_RIGHT"
       },
       CHANGE_NAME: {
-        left: 'CHANGE_NAME_LEFT',
-        right: 'CHANGE_NAME_RIGHT'
+        left: "CHANGE_NAME_LEFT",
+        right: "CHANGE_NAME_RIGHT"
       },
-      EXCHANGE: 'EXCHANGE',
-      CHANGE_PRICE: 'CHANGE_PRICE',
-      CHANGE_DISPLAY: 'CHANGE_DISPLAY'
-    }
+      EXCHANGE: "EXCHANGE",
+      CHANGE_PRICE: "CHANGE_PRICE",
+      CHANGE_DISPLAY: "CHANGE_DISPLAY"
+    };
   }
 
   getName(id) {
@@ -106,31 +106,30 @@ class AppStore extends EventEmitter {
     return this.rightValue;
   }
 
-
   handleActions(action) {
-    switch(action.type) {
+    switch (action.type) {
       case this.tag.EXCHANGE: {
-        const left = this.name.left
-        const right = this.name.right
-        this.name.left = right
-        this.name.right = left
+        const left = this.name.left;
+        const right = this.name.right;
+        this.name.left = right;
+        this.name.right = left;
         this.emit(this.tag.SWITCHED_NAMES);
         break;
       }
       case this.tag.UPDATE_VALUE: {
         this.value.left = action.value;
-        this.value.right = utils.multiply(action.value, this.price)
+        this.value.right = utils.multiply(action.value, this.price);
         this.emit(this.tag.CHANGE_DISPLAY);
         break;
       }
       case this.tag.UPDATE_NAME: {
         this.name[action.id] = action.name;
-        if (action.id === 'left') {
-          this.options.right = computeCoinOptions(action.name)
-          this.emit(this.tag.CHANGE_OPTIONS['right'])
-          if (!this.options.right.includes(this.name['right'])) {
-            this.name['right'] = this.options.right[0]
-            this.emit(this.tag.CHANGE_NAME['right']);
+        if (action.id === "left") {
+          this.options.right = computeCoinOptions(action.name);
+          this.emit(this.tag.CHANGE_OPTIONS["right"]);
+          if (!this.options.right.includes(this.name["right"])) {
+            this.name["right"] = this.options.right[0];
+            this.emit(this.tag.CHANGE_NAME["right"]);
           }
         }
         this.emit(this.tag.CHANGE_NAME[action.id]);
@@ -139,11 +138,13 @@ class AppStore extends EventEmitter {
       }
       case this.tag.UPDATE_PRICE: {
         this.price = action.price;
-        this.value.right = utils.multiply(this.value.left, this.price)
+        this.value.right = utils.multiply(this.value.left, this.price);
         this.emit(this.tag.CHANGE_DISPLAY);
         // Verifiers for development
-        if (isNaN(action.price)) console.warn('action.price is NaN '+action.price)
-        if (isNaN(this.value.right)) console.warn('this.value.right is NaN '+this.value.right)
+        if (isNaN(action.price))
+          console.warn("action.price is NaN " + action.price);
+        if (isNaN(this.value.right))
+          console.warn("this.value.right is NaN " + this.value.right);
         break;
       }
       case this.tag.UPDATE_OPTIONS: {
@@ -166,10 +167,12 @@ class AppStore extends EventEmitter {
         break;
       }
       default:
-        console.error('AppStore called without a matching tag. Available tags: ',this.tag)
+        console.error(
+          "AppStore called without a matching tag. Available tags: ",
+          this.tag
+        );
     }
   }
-
 }
 
 const appStore = new AppStore();
