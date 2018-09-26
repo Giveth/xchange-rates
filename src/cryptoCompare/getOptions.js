@@ -33,8 +33,7 @@ export async function getRightOptions(left, markets = []) {
     const rightOptions = [];
     const len = markets.length;
     for (let i = 0; i < len; i++) {
-      if (!(i % 16)) await timer(1);
-      const [_left, _right] = markets[1].split("-");
+      const [_left, _right] = markets[i].split("-");
       if (_left === left) rightOptions.push(_right);
     }
     return prioritizeCoinOrder(rightOptions.sort());

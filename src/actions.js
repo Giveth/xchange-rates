@@ -45,12 +45,14 @@ export const fetchMarkets = () => (dispatch, getState) => {
     }
     getMarketsFromExchanges(exchanges).then(({ markets, leftOptions }) => {
       dispatch(updateMarkets(markets));
-      console.log(markets);
       getLeftOptions(leftOptions).then(_leftOptions => {
         dispatch(updateLeftOptions(_leftOptions));
-        dispatch(updateLoading(false));
         // Load left options in case there was a race condition
-        dispatch(fetchRightOptions());
+        const left = getState().query.left;
+        getRightOptions(left, markets).then(rightOptions => {
+          dispatch(updateLoading(false));
+          if (rightOptions) dispatch(updateRightOptions(rightOptions));
+        });
       });
     });
   });
