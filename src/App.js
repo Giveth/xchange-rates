@@ -3,7 +3,6 @@ import ClipboardJS from "clipboard";
 // Load css
 import "react-datepicker/dist/react-datepicker.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "semantic-ui-css/semantic.min.css";
 import "./App.css";
 // import components
 import CoinNameInput from "./components/CoinNameInput";
