@@ -1,7 +1,5 @@
 # build
-build
-build*
-build/**/*
+build/
 
 # Logs
 logs
