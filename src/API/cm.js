@@ -1,27 +1,27 @@
-const url = 'https://api.coinmarketcap.com/v2/ticker/'
+const url = "https://api.coinmarketcap.com/v2/ticker/";
 
 function getCmApiAsync(callback) {
   return fetch(url)
-    .then((response) => response.json())
-    .then((res) => {
+    .then(response => response.json())
+    .then(res => {
       if (res.data) {
-        const coinArray = []
+        const coinArray = [];
         for (const coin of Object.values(res.data)) {
           coinArray.push({
             rank: coin.rank,
             name: coin.symbol
-          })
+          });
         }
-        callback(coinArray)
+        callback(coinArray);
       } else {
-        throw Error('error retrieving CM data from: ',url)
+        throw Error("error retrieving CM data from: ", url);
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.error(error);
     });
 }
 
-getCmApiAsync((res) => {
-  console.log('CM',res)
-})
+getCmApiAsync(res => {
+  console.log("CM", res);
+});

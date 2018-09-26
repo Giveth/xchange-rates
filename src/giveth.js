@@ -1,30 +1,28 @@
-
 export function fun() {
-
-  document.querySelector('body').classList.add('fun');
+  document.querySelector("body").classList.add("fun");
 
   // dots is an array of Dot objects,
   // mouse is an object used to track the X and Y position
-     // of the mouse, set with a mousemove event listener below
-  var dots = []
+  // of the mouse, set with a mousemove event listener below
+  var dots = [];
   var mouse = {
-        x: 0,
-        y: 0
-      };
+    x: 0,
+    y: 0
+  };
 
   // The Dot object used to scaffold the dots
   var Dot = function() {
     this.x = 0;
     this.y = 0;
-    this.node = (function(){
+    this.node = (function() {
       var n = document.createElement("div");
       n.className = "trail";
       document.body.appendChild(n);
       return n;
-    }());
+    })();
   };
   // The Dot.prototype.draw() method sets the position of
-    // the object's <div> node
+  // the object's <div> node
   Dot.prototype.draw = function() {
     this.node.style.left = this.x + "px";
     this.node.style.top = this.y + "px";
@@ -39,9 +37,9 @@ export function fun() {
   // This is the screen redraw function
   function draw() {
     // Make sure the mouse position is set everytime
-      // draw() is called.
-    var x = mouse.x+5,
-        y = mouse.y+5;
+    // draw() is called.
+    var x = mouse.x + 5,
+      y = mouse.y + 5;
 
     // This loop is where all the 90s magic happens
     dots.forEach(function(dot, index, dots) {
@@ -50,9 +48,8 @@ export function fun() {
       dot.x = x;
       dot.y = y;
       dot.draw();
-      x += (nextDot.x - dot.x) * .9 + 1 + 10*(Math.random()-0.2);
-      y += (nextDot.y - dot.y) * .9 + 2*(Math.random()-0.5);
-
+      x += (nextDot.x - dot.x) * 0.9 + 1 + 10 * (Math.random() - 0.2);
+      y += (nextDot.y - dot.y) * 0.9 + 2 * (Math.random() - 0.5);
     });
   }
 
@@ -63,7 +60,7 @@ export function fun() {
   });
 
   // animate() calls draw() then recursively calls itself
-    // everytime the screen repaints via requestAnimationFrame().
+  // everytime the screen repaints via requestAnimationFrame().
   function animate() {
     draw();
     requestAnimationFrame(animate);
@@ -72,18 +69,14 @@ export function fun() {
   // And get it started by calling animate().
 
   animate();
-
 }
 
-
 export function stopFun() {
+  const body = document.querySelector("body");
 
-  const body = document.querySelector('body')
-
-  body.classList.remove('fun');
+  body.classList.remove("fun");
 
   body.querySelectorAll("div.trail").forEach(e => {
-    e.parentNode.removeChild(e)
-  })
-
+    e.parentNode.removeChild(e);
+  });
 }
