@@ -1,8 +1,8 @@
 // Fiat ordered by volume
 const FIAT = [
   "USD",
-  "KRW",
   "EUR",
+  "KRW",
   "JPY",
   "RUR",
   "GBP",

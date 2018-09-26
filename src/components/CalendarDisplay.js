@@ -1,58 +1,28 @@
-import React, { Component } from "react";
+import React from "react";
 import ReactDatePicker from "react-datepicker";
 import moment from "moment";
-import getPrice from "../API/price";
-import AppStore from "../stores/AppStore";
-import * as AppActions from "../actions/AppActions";
 
-export default class CalendarDisplay extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      date: AppStore.getTimestamp()
-    };
+export default class CalendarDisplay extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    return String(nextProps.date) !== String(this.props.date);
   }
-
-  // onDateChange(date) {
-  //   let timestamp = moment(date).startOf('date').add(12, 'hours').unix();
-  //   console.log('GOT TS ',timestamp)
-  //   AppActions.updateTimestamp(timestamp)
-  // }
-
-  handleChange(date) {
-    this.setState({ date });
-    let timestamp = date
-      .startOf("date")
-      .add(12, "hours")
-      .unix();
-    AppActions.updateTimestamp(timestamp);
-
-    // Fetch new price
-    let req = { timestamp };
-    getPrice(req).then(price => {
-      console.log(
-        "REQ price from CoinNameInput2-" + this.props.id + ": ",
-        price
-      );
-      AppActions.updatePrice(price);
-    });
-
-    // The user changed something
-    AppActions.updateHasChanged();
+  componentDidMount() {
+    // focusable;
+    const calendarInput = document.getElementById("calendar-input");
+    calendarInput.setAttribute("focusable", false);
   }
-
-  onChange = date => this.setState({ date });
-
   render() {
     return (
       <div className="margin-auto">
         <ReactDatePicker
+          id="calendar-input"
           className="calendar-input"
           todayButton={"Pick a date older than today"}
           maxDate={moment().subtract(1, "days")}
-          selected={this.state.date}
-          onChange={this.handleChange.bind(this)}
-          dateFormat="ddd, MMMM Do YYYY"
+          selected={this.props.date}
+          onChange={this.props.onDateChange}
+          readOnly={true}
+          dateFormat="ddd, DD/MM/YYYY"
         />
       </div>
     );
