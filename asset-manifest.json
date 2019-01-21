@@ -1,10 +1,19 @@
 {
-  "main.css": "static/css/main.1b0f8194.css",
-  "main.css.map": "static/css/main.1b0f8194.css.map",
-  "main.js": "static/js/main.524efbe4.js",
-  "main.js.map": "static/js/main.524efbe4.js.map",
-  "static/media/exchange2.svg": "static/media/exchange2.8b2307f4.svg",
-  "static/media/giveth-white-min.png": "static/media/giveth-white-min.a1bdcc9a.png",
-  "static/media/link.svg": "static/media/link.f76d6e91.svg",
-  "static/media/loader-dots.gif": "static/media/loader-dots.0a9ae4b7.gif"
+  "main.css": "/xchange-rates/static/css/main.4af5e4e4.chunk.css",
+  "main.js": "/xchange-rates/static/js/main.6b804d55.chunk.js",
+  "main.js.map": "/xchange-rates/static/js/main.6b804d55.chunk.js.map",
+  "static/css/1.9d7d8929.chunk.css": "/xchange-rates/static/css/1.9d7d8929.chunk.css",
+  "static/js/1.9a653b64.chunk.js": "/xchange-rates/static/js/1.9a653b64.chunk.js",
+  "static/js/1.9a653b64.chunk.js.map": "/xchange-rates/static/js/1.9a653b64.chunk.js.map",
+  "runtime~main.js": "/xchange-rates/static/js/runtime~main.60222bdc.js",
+  "runtime~main.js.map": "/xchange-rates/static/js/runtime~main.60222bdc.js.map",
+  "static/media/link.svg": "/xchange-rates/static/media/link.f76d6e91.svg",
+  "static/media/loader-dots.gif": "/xchange-rates/static/media/loader-dots.0a9ae4b7.gif",
+  "static/media/giveth-white-min.png": "/xchange-rates/static/media/giveth-white-min.a1bdcc9a.png",
+  "static/media/exchange2.svg": "/xchange-rates/static/media/exchange2.8b2307f4.svg",
+  "static/css/1.9d7d8929.chunk.css.map": "/xchange-rates/static/css/1.9d7d8929.chunk.css.map",
+  "static/css/main.4af5e4e4.chunk.css.map": "/xchange-rates/static/css/main.4af5e4e4.chunk.css.map",
+  "index.html": "/xchange-rates/index.html",
+  "precache-manifest.70ae3da77e37414fac03dbf7909c3855.js": "/xchange-rates/precache-manifest.70ae3da77e37414fac03dbf7909c3855.js",
+  "service-worker.js": "/xchange-rates/service-worker.js"
 }
